@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/HTML/stories.html"><img class="book" src="/Images/book-icon.png" alt="book">Login Page</a></h1>
+
+        <div class="right-side">
+            <!-- Navigation bar -->
+            <nav>
+                <ul>
+                    <li><a href="/HTML/AuthorRank.html">Author Ranking</a></li>
+                    <li><a href="/HTML/StoryRank.html">Story Ranking</a></li>
+                    <li><a href="/HTML/StorySubmit.html">Submit a Story</a></li>
+                </ul>
+            </nav>
+
+            <div class="profile">
+                <img src="/Images/icon.png" alt="Profile" class="profile-icon" id="profile-icon">
+                <div class="dropdown-content" id="dropdown-menu">
+                    <a href="/HTML/Profile.html">Profile</a>
+                    <a href="/HTML/Login.html">Login</a>
+                    <a href="/HTML/SignUp.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Login form with inline JavaScript to prevent page reload and call a function -->
+        <form id="login-form" onsubmit="event.preventDefault(); submitLogin();">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <!-- Error message to show if login fails -->
+        <p id="error-message" style="color: red; display: none;">Invalid username or password.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Microfiction Library</p>
+    </footer>
+
+    <script src="/JS/storydetail.js"></script>
+</body>
+</html>
+

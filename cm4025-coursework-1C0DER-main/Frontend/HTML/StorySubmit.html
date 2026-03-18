@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Story</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/HTML/stories.html"><img class="book" src="/Images/book-icon.png" alt="book">Submit your Microfiction story</a></h1>
+
+        <div class="right-side">
+            <nav>
+                <ul>
+                    <li><a href="/HTML/AuthorRank.html">Author Ranking</a></li>
+                    <li><a href="/HTML/StoryRank.html">Story Ranking</a></li>
+                    <li><a href="/HTML/StorySubmit.html">Submit a Story</a></li>
+                </ul>
+            </nav>
+
+            <div class="profile">
+                <img src="/Images/icon.png" alt="Profile" class="profile-icon" id="profile-icon">
+                <div class="dropdown-content" id="dropdown-menu">
+                    <a href="/HTML/Profile.html">Profile</a>
+                    <a href="/HTML/Login.html">Login</a>
+                    <a href="/HTML/SignUp.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <form id="submit-form">
+            <!-- Story title -->
+            <label for="quoteName">Enter Story Title:</label>
+            <input type="text" id="quoteName" placeholder="Enter your story title" />
+
+            <!-- Story content -->
+            <label for="story-content">Content:</label>
+            <textarea id="story-content" name="story-content" rows="5" required></textarea>
+
+            <!-- Genre selection -->
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre" required>
+                <option value="Fiction">Fiction</option>
+                <option value="Non-Fiction">Non-Fiction</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Science Fiction">Science Fiction</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Horror">Horror</option>
+                <option value="Romance">Romance</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Historical">Historical</option>
+                <option value="Poetry">Poetry</option>
+                <option value="Action">Action</option>
+                <option value="Crime">Crime</option>
+                <option value="Supernatural">Supernatural</option>
+                <option value="Dystopian">Dystopian</option>
+                <option value="Mythology">Mythology</option>
+                <option value="Satire">Satire</option>
+                <option value="Philosophical">Philosophical</option>
+                <option value="Psychological">Psychological</option>
+                <option value="fable">Fable</option>
+            </select>
+
+            <!-- Visibility setting: public or private -->
+            <label for="visibility">Visibility:</label>
+            <input type="radio" id="public" name="visibility" value="public" checked> Public
+            <input type="radio" id="private" name="visibility" value="private"> Private
+
+                        <!-- Optional: Allow guest to provide their name -->
+                        <label for="guest-name">Guest Name (Optional):</label>
+                        <input type="text" id="guest-name" placeholder="Enter your name" />
+
+            <button type="submit" id="submit-btn">Submit Story</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Microfiction Library</p>
+    </footer>
+
+    <script src="/JS/storydetail.js"></script>
+</body>
+</html>
+

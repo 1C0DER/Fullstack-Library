@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Rankings</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/HTML/stories.html"><img class="book" src="/Images/book-icon.png" alt="book">Author Ranking</a></h1>
+
+        <!-- Container for navigation and user profile -->
+        <div class="right-side">
+            <nav>
+                <ul>
+                    <li><a href="/HTML/AuthorRank.html">Author Ranking</a></li>
+                    <li><a href="/HTML/StoryRank.html">Story Ranking</a></li>
+                    <li><a href="/HTML/StorySubmit.html">Submit a Story</a></li>
+                </ul>
+            </nav>
+
+            <!-- Profile icon and dropdown menu -->
+            <div class="profile">
+                <img src="/Images/icon.png" alt="Profile" class="profile-icon" id="profile-icon">
+                <div class="dropdown-content" id="dropdown-menu">
+                    <a href="/HTML/Profile.html">Profile</a>
+                    <a href="/HTML/Login.html">Login</a>
+                    <a href="/HTML/SignUp.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="ranking">
+            <h2>Top Authors</h2>
+            <div class="ranking-list" id="author-ranking-list">
+                <!-- Author rankings will be inserted here dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Microfiction Library</p>
+    </footer>
+
+    <!-- JavaScript to fetch and display author rankings once the page loads -->
+    <script>
+        // Ensures script runs after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/topAuthors')
+                // Sends a GET request to fetch the top authors from the server
+                .then(response => response.json())
+                .then(authors => {
+                    const authorList = document.getElementById('author-ranking-list');
+                    // Gets the container where author data will be displayed
+                    if (authors.length === 0) {
+                        // If there are no authors, display a message
+                        authorList.innerHTML = '<p>No authors found.</p>';
+                    } else {
+                        // Loop through each author and create HTML elements
+                        authors.forEach(author => {
+                            const authorItem = document.createElement('div');
+                            authorItem.classList.add('author-item');
+                            // Inserts author name, total rating, and story count
+                            authorItem.innerHTML = `
+                                <h3>${author.authorName}</h3>
+                                <p>Total Rating: ${author.totalRating} | Stories: ${author.storyCount}</p>
+                            `;
+                            authorList.appendChild(authorItem);
+                        });
+                    }
+                })
+                .catch(error => {
+                    // Logs and alerts in case of a request failure
+                    console.error('Error fetching authors:', error);
+                    alert('Error fetching authors');
+                });
+        });
+    </script>
+</body>
+</html>

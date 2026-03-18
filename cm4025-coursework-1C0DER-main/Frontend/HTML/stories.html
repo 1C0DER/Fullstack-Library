@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfiction Library - Stories</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/HTML/stories.html"><img class="book" src="/Images/book-icon.png" alt="book">Microfiction Library</a></h1>
+
+        <div class="right-side">
+            <nav>
+                <ul>
+                    <li><a href="/HTML/AuthorRank.html">Author Ranking</a></li>
+                    <li><a href="/HTML/StoryRank.html">Story Ranking</a></li>
+                    <li><a href="/HTML/StorySubmit.html">Submit a Story</a></li>
+                </ul>
+            </nav>
+
+            <div class="profile">
+                <img src="/Images/icon.png" alt="Profile" class="profile-icon" id="profile-icon">
+                <div class="dropdown-content" id="dropdown-menu">
+                    <a href="/HTML/Profile.html">Profile</a>
+                    <a href="/HTML/Login.html">Login</a>
+                    <a href="/HTML/SignUp.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="page-title">Microfiction Stories</h2>
+
+        <div class="top-items">
+                <!-- Filter and Search Section -->
+            <section class="filter-search">
+                <!-- Dropdown to filter by genre -->
+                <select id="genre-filter" onchange="filterStories()">
+                    <option value="">All Genres</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Historical">Historical</option>
+                    <option value="Poetry">Poetry</option>
+                    <option value="Action">Action</option>
+                    <option value="Crime">Crime</option>
+                    <option value="Supernatural">Supernatural</option>
+                    <option value="Dystopian">Dystopian</option>
+                    <option value="Mythology">Mythology</option>
+                    <option value="Satire">Satire</option>
+                    <option value="Philosophical">Philosophical</option>
+                    <option value="Fable">Fable</option>
+                </select>
+
+                <!-- Add a checkbox to filter out stories the user has read -->
+                <label for="exclude-read">
+                    <input type="checkbox" id="exclude-read" /> Exclude stories I've read
+                </label>
+
+                <!-- Button to apply filters -->
+                <button id="apply-filters">Apply Filters</button>
+            </section>
+        </div>
+                
+        <div id="story-list">
+            <!-- Stories will be inserted here dynamically -->
+        </div>        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Microfiction Library</p>
+    </footer>
+
+    <script src="/JS/stories.js"></script>
+
+    <!-- Inline script for genre filtering logic -->
+    <script>
+        function filterStories() {
+            const genre = document.getElementById('genre-filter').value;  // Get selected genre
+            const excludeRead = document.getElementById('exclude-read').checked;  // Get exclude-read checkbox status
+        
+            // Check if "All Genres" is selected
+            if (genre === "") {
+                // If "All Genres" is selected, refresh the page to fetch all stories
+                window.location.reload();  // Reload the page to reset all filters
+            } else {
+                // Prepare headers for the request
+                const headers = {};
+        
+                // Only include the Authorization header if the user is logged in
+                const token = localStorage.getItem('token');
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;  // Add token for logged-in users
+                }
+        
+                // Send the filter request to the backend
+                fetch(`/api/filterStories?genre=${genre}&excludeRead=${excludeRead}`, {
+                    method: 'GET',
+                    headers: headers  // Pass the headers (with or without token)
+                })
+                .then(response => response.json())
+                .then(stories => {
+                    const storyList = document.getElementById('story-list');
+                    storyList.innerHTML = '';  // Clear existing stories
+        
+                    // If no stories are found
+                    if (stories.length === 0) {
+                        storyList.innerHTML = '<p>No stories found.</p>';
+                        return;
+                    }
+        
+                    // Loop through each story and display it
+                    stories.forEach(story => {
+                        const storyItem = document.createElement('div');
+                        storyItem.classList.add('story-item');
+                        storyItem.innerHTML = `
+                            <h3>${story.title}</h3>
+                            <p>Genre: ${story.genre} | Rating: ${story.rating.toFixed(1)} | Votes: ${story.ratingCount}</p>
+                            <p>Status: ${story.visibility}</p>
+                            <p>Username: ${story.username}</p>
+                            <p>Content: ${story.content}</p>
+                        `;
+                        storyList.appendChild(storyItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching filtered stories:', error);
+                    alert('Error fetching stories');
+                });
+            }
+        }                
+                
+    </script>
+</body>
+</html>

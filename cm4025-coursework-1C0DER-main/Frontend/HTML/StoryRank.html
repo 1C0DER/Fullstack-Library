@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Rankings</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/HTML/stories.html"><img class="book" src="/Images/book-icon.png" alt="book">Story Ranking</a></h1>
+
+        <div class="right-side">
+            <nav>
+                <ul>
+                    <li><a href="/HTML/AuthorRank.html">Author Ranking</a></li>
+                    <li><a href="/HTML/StoryRank.html">Story Ranking</a></li>
+                    <li><a href="/HTML/StorySubmit.html">Submit a Story</a></li>
+                </ul>
+            </nav>
+
+            <div class="profile">
+                <img src="/Images/icon.png" alt="Profile" class="profile-icon" id="profile-icon">
+                <div class="dropdown-content" id="dropdown-menu">
+                    <a href="/HTML/Profile.html">Profile</a>
+                    <a href="/HTML/Login.html">Login</a>
+                    <a href="/HTML/SignUp.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Ranking section to show top-rated stories -->
+        <section class="ranking">
+            <h2>Top Rated Stories</h2>
+            <div class="ranking-list" id="ranking-list">
+                <!-- Top-rated stories will be inserted here dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Microfiction Library</p>
+    </footer>
+
+     <!-- JavaScript to fetch top-rated stories after page loads -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch top-rated stories from the backend
+            fetch('/api/topRatedStories')
+                .then(response => response.json())
+                .then(stories => {
+                    const rankingList = document.getElementById('ranking-list');
+                    // If no stories returned
+                    if (stories.length === 0) {
+                        rankingList.innerHTML = '<p>No stories available</p>';
+                    } else {
+                        // Loop through stories and display each one
+                        stories.forEach(story => {
+                            const storyItem = document.createElement('div');
+                            storyItem.classList.add('story-item');
+                            storyItem.innerHTML = `
+                                <h3>${story.title}</h3>
+                                <p>Genre: ${story.genre}</p>
+                                <p>Average Rating: ${story.rating.toFixed(1)} | ${story.ratingCount} Ratings</p>
+                            `;
+                            rankingList.appendChild(storyItem);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching top-rated stories:', error);
+                    alert('Error loading top-rated stories');
+                });
+        });
+    </script>
+</body>
+</html>
